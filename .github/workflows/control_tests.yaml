@@ -1,0 +1,36 @@
+name: Pytest & flake8 control Push
+
+# Le workflow s'exécute lors d'un "push"
+on: push
+
+jobs:
+  qa:
+    name: Check tests
+    runs-on: ubuntu-20.04
+
+    steps:
+      # Étape 1 : Récupérer le contenu du dépôt
+      - name: Checkout on master
+        uses: actions/checkout@v3
+
+      # Étape 2 : Installer Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+
+      # Étape 3 : Installer pytest et flake8
+      - name: Install pytest and flake8
+        run: |
+          pip install pytest
+          pip install flake8
+
+      # Étape 4 : Exécuter pytest
+      - name: Run tests
+        run: |
+          pytest
+
+      # Étape 5 : Exécuter flake8 pour vérifier la convention PEP8
+      - name: Run flake8
+        uses: py-actions/flake8@v2
+
